@@ -1,0 +1,35 @@
+//
+#ifndef SAX_BUSCRIBER_POOL_H
+#define SAX_BUSCRIBER_POOL_H 1
+
+#include "RCObjectHandle.h"
+#include "SAXSubscriber.h"
+
+#include <vector>
+#include <map>
+
+class SAXSubscriberPool
+{
+public:
+  typedef RCObjectHandle<SAXSubscriber>                     Subscriber;
+  typedef std::vector<Subscriber>                           Subscribers;
+  typedef std::map<SAXSubscriber::Subscription,Subscribers> Pool;
+  
+  SAXSubscriberPool();    
+  ~SAXSubscriberPool();
+
+  void AddSubscriber( const SAXSubscriber::Subscription& type, Subscriber client );
+  void RemoveSubscriber( const SAXSubscriber::Subscription& type, Subscriber client );
+  const Subscribers* GetSubscribers( const SAXSubscriber::Subscription& subscription );
+  void Initialize();
+  void Reset();  
+  void SetType( int type ) { fType = type; }
+
+private:
+  SAXSubscriberPool::Pool fPool;
+  int fType;
+};
+
+#endif // SAX_BUSCRIBER_POOL_H
+
+

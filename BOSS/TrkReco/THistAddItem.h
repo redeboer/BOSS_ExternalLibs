@@ -1,0 +1,35 @@
+#ifndef THISTADDITEM_H
+#define THISTADDITEM_H
+ 
+#include "GaudiKernel/NTuple.h"
+#include "AIDA/IHistogram1D.h"
+#include "AIDA/IHistogram2D.h"
+AIDA::IHistogram1D*  g_tsflayer;
+AIDA::IHistogram1D*  g_tsfangle;
+AIDA::IHistogram1D*  g_linkangle;
+AIDA::IHistogram1D*  g_linkdis;
+AIDA::IHistogram1D*  g_quality2drad;
+AIDA::IHistogram1D*  g_quality2dnsl;
+AIDA::IHistogram1D*  g_n2dtrk1;
+AIDA::IHistogram1D*  g_n2dtrk2;
+AIDA::IHistogram1D*  g_n2dtrk3;
+AIDA::IHistogram1D*  g_n2dtrk4;
+AIDA::IHistogram1D*  g_n2dtrk5;
+AIDA::IHistogram1D*  g_n2dtrk6;
+AIDA::IHistogram1D*  g_n3dsl;
+AIDA::IHistogram1D*  g_helixfitncore;
+AIDA::IHistogram1D*  g_helixfitpChi2;
+AIDA::IHistogram1D*  g_naxialseg;
+AIDA::IHistogram1D*  g_nstereseg;
+AIDA::IHistogram1D*  g_n3dtrk1;
+AIDA::IHistogram1D*  g_n3dtrk2;
+AIDA::IHistogram1D*  g_n3dtrk3;
+AIDA::IHistogram1D*  g_checkaxialnhits;
+AIDA::IHistogram1D*  g_checksterenhits;
+AIDA::IHistogram1D*  g_checkallnhits;
+AIDA::IHistogram1D*  g_checknhits2d;
+AIDA::IHistogram1D*  g_hitspull;
+AIDA::IHistogram1D*  g_appendhitdis;
+AIDA::IHistogram1D*  g_segbadncore;
+AIDA::IHistogram1D*  g_salvagesigma;
+#endif

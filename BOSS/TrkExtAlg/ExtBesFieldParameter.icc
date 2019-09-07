@@ -1,0 +1,3 @@
+    Bz = 1.0*tesla;
+    rmax = 150.0*cm;
+    zmax = 150.0*cm;

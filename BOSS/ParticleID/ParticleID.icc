@@ -1,0 +1,273 @@
+
+//
+// Is Pid Info Valid ?
+//
+
+inline bool ParticleID::IsPidInfoValid() const {
+  bool valid1 = false;	
+  bool valid2 = false;
+  bool valid3 = false;
+  if((m_method & methodProbability()) == methodProbability()) 
+     valid1 = (m_ndof > 0);
+/*  if((m_method & methodNeuronNetwork())== methodNeuronNetwork())
+     valid2 = (m_neuronStat > 0);
+*/
+if((m_method & methodLikelihood()) == methodLikelihood()) 
+     valid2 = (m_discard >0);
+  return (valid1 | valid2 | valid3);
+}
+	 	
+inline bool ParticleID::IsDedxInfoValid() const {
+  bool valid = false;
+  if(!m_dedxpid) return valid;
+  valid = m_dedxpid->IsPidInfoValid();
+  return valid;
+}
+
+
+inline bool ParticleID::IsTofInfoValid() const {
+  bool valid = false;
+  if(!m_tofpid) return valid;
+  valid = m_tofpid->IsPidInfoValid();
+  return valid;
+}
+
+inline bool ParticleID::IsTofCInfoValid() const{
+ bool valid = false;
+ if(!m_tofcpid) return valid;
+  valid = m_tofcpid->IsPidInfoValid();
+  return valid;
+}
+
+inline bool ParticleID::IsTofCorrInfoValid() const{
+ bool valid = false;
+ if(!m_tofcorrpid) return valid;
+  valid = m_tofcorrpid->IsPidInfoValid();
+  return valid;
+}
+
+inline bool ParticleID::IsTofEInfoValid() const {
+  bool valid = false;
+  if(!m_tofepid) return valid;
+  valid = m_tofepid->IsPidInfoValid();
+  return valid;
+}
+
+inline bool ParticleID::IsTofQInfoValid() const {
+  bool valid = false;
+  if(!m_tofqpid) return valid;
+  valid = m_tofqpid->IsPidInfoValid();
+  return valid;
+}
+
+inline bool ParticleID::IsEmcInfoValid() const {
+  bool valid = false;
+  if(!m_emcpid) return valid;
+  valid = m_emcpid->IsPidInfoValid();
+  return valid;
+}
+
+inline bool ParticleID::IsMucInfoValid() const { 
+     bool valid = false; 
+     if(!m_mucpid) return valid; 
+     valid = m_mucpid->IsPidInfoValid(); 
+     return valid; 
+   } 
+    
+
+//
+//  Chi of sub Pid sys
+//
+
+inline double ParticleID :: chiDedx(int n) const {
+  double chi = 99;
+  if(IsDedxInfoValid()) chi = m_dedxpid->chi(n);
+  return chi;
+}	
+
+inline double ParticleID :: chiTof(int n) const {
+  double chi = 99;  
+  if(IsTofInfoValid()){
+  chi = m_tofpid->chi(n);
+ }
+  return chi;
+}	
+
+inline double ParticleID :: chiTof1(int n) const {
+  double chi = 99;
+  if(IsTofInfoValid())
+ chi = m_tofpid->chilayer1(n);
+  return chi;
+}	
+
+inline double ParticleID :: chiTof2(int n) const {
+  double chi = 99;
+  if(IsTofInfoValid())
+ chi = m_tofpid->chilayer2(n);
+  return chi;
+}	
+
+inline double ParticleID :: chiTofE(int n) const {
+  double chi = 99;
+  if(IsTofEInfoValid()) chi = m_tofepid->chi(n);
+  return chi;
+}	
+
+inline double ParticleID :: chiTofQ(int n) const {
+  double chi = 99;
+  if(IsTofQInfoValid()) chi = m_tofqpid->chi(n);
+  return chi;
+}	
+
+inline double ParticleID :: chiTofC(int n) const {
+   double chi = 99;
+   if(IsTofCInfoValid()) chi = m_tofcpid->chi(n);
+   return chi;
+}
+
+inline double ParticleID :: chiTofCorr(int n) const {
+   double chi = 99;
+   if(IsTofCorrInfoValid()) chi = m_tofcorrpid->chi(n);
+   return chi;
+}
+
+inline double ParticleID :: chiEmc(int n) const {
+  double chi = 99;
+  if(IsEmcInfoValid()) chi = m_emcpid->chi(n);
+  return chi;
+}	
+
+inline double ParticleID :: chiMuc(int n) const {
+  double chi = 99;
+  if(IsMucInfoValid()) chi = m_mucpid->chi(n);
+  return chi;
+}	
+
+//
+//  Prob of sub Pid sys
+//
+
+
+inline double ParticleID :: probDedx(int n) const {
+  double prob = -1.;
+  if(IsDedxInfoValid()) prob = m_dedxpid->prob(n);
+  return prob;
+}	
+
+inline double ParticleID :: probTof(int n) const {
+  double prob = -1.;
+  if(IsTofInfoValid()) prob = m_tofpid->prob(n);
+  return prob;
+}	
+
+inline double ParticleID :: probTofE(int n) const {
+  double prob = -1.;
+  if(IsTofEInfoValid()) prob = m_tofepid->prob(n);
+  return prob;
+}	
+
+inline double ParticleID :: probTofQ(int n) const {
+  double prob = -1.;
+  if(IsTofQInfoValid()) prob = m_tofqpid->prob(n);
+  return prob;
+}	
+
+inline double ParticleID :: probTofC(int n) const {
+   double prob = -1.;
+   if(IsTofCInfoValid()) prob = m_tofcpid->prob(n);
+   return prob;
+}
+
+inline double ParticleID :: probTofCorr(int n) const {
+   double prob = -1.;
+   if(IsTofCorrInfoValid()) prob = m_tofcorrpid->prob(n);
+   return prob;
+}
+
+inline double ParticleID :: probEmc(int n) const {
+  double prob = -1.;
+  if(IsEmcInfoValid()) prob = m_emcpid->prob(n);
+  return prob;
+}	
+
+
+//
+// pdf od sub Pid sys
+//
+
+inline double ParticleID :: pdfDedx(int n) {
+  double chi = 99;		
+  if(IsDedxInfoValid()) chi = m_dedxpid->chi(n);
+  return pdfCalculate(chi,1);
+}	
+
+
+inline double ParticleID :: pdfTof(int n){
+  double offset = 99;
+  double sigma = 1;	
+  if(IsTofInfoValid()) {
+   offset = m_tofpid->offset(n);
+   sigma = m_tofpid->sigma(n);
+}
+  return pdfCalculate(offset,sigma);
+}	
+
+inline double ParticleID :: pdfTofE(int n){
+  double offset = 99;
+  double sigma = 1;	
+  if(IsTofEInfoValid()) {
+   offset = m_tofepid->offset(n);
+   sigma = m_tofepid->sigma(n);
+  }
+return pdfCalculate(offset,sigma);
+}	
+
+inline double ParticleID :: pdfTofQ(int n){
+/*  double offset = 99;
+  double sigma =1;
+  if(IsTofQInfoValid()) {
+   offset = m_tofqpid->chi(n);
+ //  sigma = m_tofqpid->sigma(n);
+   }  
+  return pdfCalculate(chi,sigma);
+*/
+  return 0;
+}	
+
+
+inline double ParticleID :: pdfTofC(int n){
+   double offset = 99;
+   double sigma = 1;
+   if(IsTofCInfoValid()) {
+      offset = m_tofcpid->offset(n);
+      sigma = m_tofcpid->sigma(n);
+   }
+   return pdfCalculate(offset,sigma);
+}
+
+inline double ParticleID :: pdfTofCorr(int n){
+   double offset = 99;
+   double sigma = 1;
+   if(IsTofCorrInfoValid()) {
+      offset = m_tofcorrpid->offset(n);
+      sigma = m_tofcorrpid->sigma(n);
+   }
+   return pdfCalculate(offset,sigma);
+}
+
+inline double ParticleID :: pdfEmc(int n){
+  double pdf = -1;
+  if(IsEmcInfoValid()) {
+     pdf=m_emcpid->prob(n);
+   }
+  return pdf;
+}	
+
+inline double ParticleID :: pdfMuc(int n){
+  double pdf = -1;
+  if(IsMucInfoValid()) {
+     pdf=m_mucpid->prob(n);
+   }
+  return pdf;
+}
+

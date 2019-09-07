@@ -1,0 +1,99 @@
+//--------------------------------------------------------------------------
+// File and Version Information:
+// 	$Id: AstAbsAssociation.icc,v 1.1.1.1 2005/04/21 01:15:12 zhangy Exp $
+//
+// Description:
+//	Class AstAbsAssociation
+//      Abstract interface for simple one to one associations
+//
+// Environment:
+//	Software developed for the BaBar Detector at the SLAC B-Factory.
+//
+// Author List:
+//      Phil Strother           LBNL
+//
+//------------------------------------------------------------------------
+
+ 
+//-----------------------
+// This Class's Header --
+//-----------------------
+
+#include "MdcTrkRecon/Tools/AstAbsAssociation.h"
+
+//-------------
+// C Headers --
+//-------------
+extern "C" {
+}
+
+//---------------
+// C++ Headers --
+//---------------
+
+//-------------------------------
+// Collaborating Class Headers --
+//-------------------------------
+
+//-----------------------------------------------------------------------
+// Local Macros, Typedefs, Structures, Unions and Forward Declarations --
+//-----------------------------------------------------------------------
+
+#ifndef   BES_COMP_INST
+static const char rscid[] = "$Id: AstAbsAssociation.icc,v 1.1.1.1 2005/04/21 01:15:12 zhangy Exp $";
+#endif // BES_COMP_INST
+
+//              ----------------------------------------
+//              -- Public Function Member Definitions --
+//              ----------------------------------------
+
+//----------------
+// Constructors --
+//----------------
+
+
+template<class T1, class T2>
+AstAbsAssociation< T1,  T2>::AstAbsAssociation()
+{}
+
+// Copy constructor
+
+template<class T1, class T2>
+AstAbsAssociation< T1,  T2>::AstAbsAssociation(const AstAbsAssociation<T1, T2> 
+					       &other)
+{}
+
+//--------------
+// Destructor --
+//--------------
+
+
+template<class T1, class T2>
+AstAbsAssociation< T1,  T2>::~AstAbsAssociation()
+{}
+
+//-------------
+// Methods   --
+//-------------
+    
+//-------------
+// Operators --
+//-------------
+
+
+
+template<class T1, class T2>
+bool 
+AstAbsAssociation<T1, T2>::operator==(const AstAbsAssociation<T1, T2> &other) const
+{
+  return ((this->firstArgument() == other.firstArgument()) &&
+	  (this->secondArgument() == other.secondArgument()));
+}
+
+
+template<class T1, class T2>
+bool 
+AstAbsAssociation<T1, T2>::operator!=(const AstAbsAssociation<T1, T2> &other) const
+{
+  return (! (*this==other));
+}

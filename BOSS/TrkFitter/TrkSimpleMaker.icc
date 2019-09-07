@@ -1,0 +1,127 @@
+//--------------------------------------------------------------------------
+// File and Version Information:
+//      $Id: TrkSimpleMaker.icc,v 1.3 2010/09/26 00:32:23 zhangy Exp $
+//
+// Description:
+//
+// Environment:
+//      Software developed for the BaBar Detector at the SLAC B-Factory.
+//
+// Authors: Steve Schaffner
+//
+//------------------------------------------------------------------------
+//#include "BaBar/BaBar.h"
+#include "TrkFitter/TrkSimpleMaker.h"
+#include "TrkBase/TrkRecoTrk.h"
+#include "TrkBase/TrkExchangePar.h"
+// #include "ErrLogger/ErrLog.h"
+#include "TrkBase/TrkHitOnTrk.h"
+#include "TrkBase/TrkRepIter.h"
+
+template <class T>
+TrkSimpleMaker<T>::~TrkSimpleMaker()
+{
+}
+
+template <class T>
+TrkSimpleMaker<T>::TrkSimpleMaker()
+{
+}
+
+template <class T>
+TrkRecoTrk*
+TrkSimpleMaker<T>::makeTrack(const TrkExchangePar& helix,
+                          double chi2,
+                          const TrkContext& context,
+                          double time) const
+{
+  TrkRecoTrk* newTrack = createTrack(PdtPid::pion, context, time);
+  T* newRep = new T(helix, newTrack, PdtPid::pion);
+  newRep->fitter().setFittingPar(false, false);
+
+  // Gives ownership of newRep to newTrack
+  setRep(*newTrack, newRep);
+  newRep->setChisq(chi2);
+  newRep->setValid(false);
+  if (chi2 > 0.0) newRep->setValid(true);
+  return newTrack;
+}
+
+template <class T>
+void
+TrkSimpleMaker<T>::changeFit(TrkRecoTrk& theTrack) const
+{
+  PdtPid::PidType hypo = theTrack.defaultType();
+  const TrkRep* defrep = getRep(theTrack,hypo);
+  const TrkHotList *hl = defrep->hotList();
+  const TrkFit* theFit = theTrack.fitResult();
+  if (theFit == 0) {
+    std::cout << " ErrMsg(error) "
+      << "TrkSimpleMaker::changeFit() cannot get helix from invalid fit."
+      << std::endl;
+    return;
+  }
+  T* newRep = new T(theFit->helix(0.),
+                    &theTrack, theTrack.defaultType(),hl);
+  newRep->fitter().setFittingPar(false, false);
+  newRep->setValid(true);
+  newRep->setCurrent(false);
+
+  setRep(theTrack, newRep);   // theTrack will delete all old Reps
+}
+
+template <class T>
+bool
+TrkSimpleMaker<T>::setFlipAndDrop(TrkRecoTrk& track, bool lFlip, bool lDrop) const
+{
+//  std::cout << "yzhang debug in TrkSimpleMaker::setFlipAndDrop "   << std::endl;//yzhang debug 
+
+  std::pair<TrkRepIter,TrkRepIter> theReps = uniqueReps(track);
+  for (TrkRepIter i = theReps.first; i != theReps.second; ++i) {
+    T* aRep = dynamic_cast<T*>( i.get() );
+
+    //aRep->printAll();//yzhang debug
+
+    if (aRep==0) return false; // FIXME: first check all reps before any change?
+    aRep->fitter().setFittingPar(lFlip, lDrop);
+    aRep->setCurrent(false);
+  }
+  return true;
+}
+
+template <class T>
+void
+TrkSimpleMaker<T>::setValidRange(TrkRecoTrk& track, double newLo, double newHi) const
+{
+  std::pair<TrkRepIter,TrkRepIter> theReps = uniqueReps(track);
+  for (TrkRepIter i = theReps.first; i != theReps.second; ++i) {
+    //for (TrkRepIter i = theReps.first; i != theReps.end; ++i) {//yzhang temp FIXME
+    T* aRep = dynamic_cast<T*>( *i );
+    if (aRep==0) return false; // FIXME: first check all reps before any change?
+    double f[2] = { newLo, newHi};
+    Trajectory* t = aRep->traj().setFlightRange(f);
+  }
+  }
+
+  template <class T>
+    void
+    TrkSimpleMaker<T>::setValues(TrkRecoTrk& theTrack,
+	const TrkExchangePar& newPars, double chi2) const
+    {
+      PdtPid::PidType hypo = theTrack.defaultType();
+
+      // Get list of hits from input track, if there are any
+      TrkHotList* hl = theTrack.hots();
+
+      T* newRep = 0;
+      if (theTrack.whichFit(hypo) != PdtPid::null) {
+	newRep = new T(newPars, &theTrack, hypo,hl);
+      } else {
+	// Needed by RW persistent-object creation of track via default ctor
+	newRep = new T(newPars, &theTrack, hypo);
+      }
+      setRep(theTrack, newRep);
+      newRep->setChisq(chi2);
+      if (chi2 > 0.0) newRep->setValid(true);
+      newRep->setCurrent(false);
+    }

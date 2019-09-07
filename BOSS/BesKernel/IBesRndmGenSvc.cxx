@@ -1,0 +1,1 @@
+#include "BesKernel/IBesRndmGenSvc.h"

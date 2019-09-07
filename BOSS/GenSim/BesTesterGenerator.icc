@@ -1,0 +1,10 @@
+// To simulate BES TESTER generator (default values)
+//
+    nParticle = 1;          //Number of particle in an event
+    particleName = "pi-";    //particle name in G4 format
+    minCos = -0.8;          //minimum of cos(theta)
+    maxCos = 0.8;           //maximum
+    phiStart = 0.;   //starting phi
+    phiEnd = 360.;   //end
+    pMomentum = 1.;    //momentum (center)
+    deltaP = 0.;        //momentum (range pMomentum+/-deltaP)

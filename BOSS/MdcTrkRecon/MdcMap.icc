@@ -1,0 +1,74 @@
+//--------------------------------------------------------------------------
+// File and Version Information:
+//      $Id: MdcMap.icc,v 1.1.1.1 2005/04/21 06:23:43 maqm Exp $
+//
+// Description:
+//     
+//
+// Environment:
+//      Software developed for the BaBar Detector at the SLAC B-Factory.
+//
+// Author(s): Gerhard Raven
+//
+//------------------------------------------------------------------------
+#include "MdcTrkRecon/MdcMap.h"
+#include <iterator>
+
+template <class K, class V>
+MdcMap<K,V>::MdcMap() {}
+
+template <class K, class V>
+MdcMap<K,V>::~MdcMap() { }
+
+template <class K, class V>
+bool
+MdcMap<K,V>::get(const K& theKey, V& theAnswer) const
+{ 
+  //CHANGE std::map<K,V>::const_iterator i = _dict.find(theKey);
+  //CHANGE if (i == _dict.end()) return false;
+  //CHANGE if (i == _dict.end()) return false;
+  //yzhang
+  if (_dict.find(theKey) == _dict.end()) return false;
+  theAnswer = _dict.find(theKey)->second;
+  //zhangy
+  return true;
+}
+
+template <class K, class V>
+V&
+MdcMap<K,V>::get(const K& theKey) const
+{
+  static V v(0);
+  //CHANGE std::map<K,V>::const_iterator  i = _dict.find(theKey);
+  //CHANGE return (i != _dict.end() ? const_cast<V&>(i->second) : v );
+  //yzhang
+  return (_dict.find(theKey) != _dict.end() ? const_cast<V&>(_dict.find(theKey)->second) : v );
+  //zhangy
+}
+
+#if 0
+// FIXME: partial specialization doesn't seem to work this way...
+
+template <class K, class V>
+V*&
+MdcMap<K,V*>::get(const K& theKey) const
+{
+  static V *v(0);
+  std::map<K,V*>::const_iterator i = _dict.find(theKey);
+  return (i != _dict.end() ? i->second : v );
+}
+#endif
+
+template <class K, class V>
+void
+MdcMap<K,V>::put(const K& theKey, const V& theValue)
+{
+  _dict[theKey]=theValue;
+}
+
+template <class K, class V>
+void
+MdcMap<K,V>::clear()
+{
+  _dict.clear();
+}

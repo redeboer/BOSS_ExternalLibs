@@ -1,0 +1,233 @@
+//--------------------------------------------------------------------------
+// File and Version Information:
+// 	$Id: AstStringMap.icc,v 1.3 2010/03/25 09:55:57 zhangy Exp $
+//
+// Description:
+//	This class is meant to be used to store an unowned pointer to
+//      and object that you reference with a std::string key.
+//
+// Environment:
+//	Software developed for the BaBar Detector at the SLAC B-Factory.
+//
+// Author List:
+//      Stephen J. Gowdy        Originator
+//
+// Copyright Information:
+//      Copyright (C) 2004      Stanford Linear Accelerator Center
+// 
+// History:
+//	Migration for BESIII MDC
+//
+//------------------------------------------------------------------------
+
+//-----------------------
+// This Class's Header --
+//-----------------------
+#include "MdcRecoUtil/AstStringMap.h"
+
+//-------------
+// C Headers --
+//-------------
+extern "C" {
+}
+
+//---------------
+// C++ Headers --
+//---------------
+#include <iostream>
+
+//-------------------------------
+// Collaborating Class Headers --
+//-------------------------------
+
+//-----------------------------------------------------------------------
+// Local Macros, Typedefs, Structures, Unions and Forward Declarations --
+//-----------------------------------------------------------------------
+
+// One for each possible first character
+#define ASTSTRINGMAP_NUM_VECTORS 256
+
+//		----------------------------------------
+// 		-- Public Function Member Definitions --
+//		----------------------------------------
+
+//----------------
+// Constructors --
+//----------------
+  template < class T >
+  AstStringMap< T >::AstStringMap()
+: _stringMap( ASTSTRINGMAP_NUM_VECTORS )
+{
+}
+
+//--------------
+// Destructor --
+//--------------
+  template < class T >
+AstStringMap< T >::~AstStringMap()
+{
+}
+
+
+//-------------
+// Methods   --
+//-------------
+
+//-------------
+// Operators --
+//-------------
+template < class T >
+T*
+AstStringMap< T >::operator[]( const std::string& key ) const
+{
+  //CHANGE  uint64_t theInt = stringToInt( key );
+  unsigned theInt =stringToInt( key );
+  T* theObject = 0;
+  if ( theInt == 0 )
+  {
+    // Get the right map out of the vector
+    const std::map< std::string, T* >& theMap
+      = _stringMap[ stringToBucket( key ) ];
+    // Find the entry, if there is one
+    typename std::map< std::string, T* >::const_iterator iter
+      = theMap.find( key );
+    if ( iter != theMap.end() ) theObject = iter->second;
+  }
+  else
+  {
+    // Find the entry, if there is one
+    //CHANGE      typename std::map< uint64_t, T* >::const_iterator iter
+    typename std::map< unsigned, T* >::const_iterator iter
+      = _intMap.find( theInt );
+    if ( iter != _intMap.end() ) theObject = iter->second;
+  }
+
+  return theObject;
+}
+
+template < class T >
+  std::ostream&
+operator<<( std::ostream& os, const AstStringMap< T >& map )
+{
+  for ( int i = 0; i<ASTSTRINGMAP_NUM_VECTORS; i++ )
+  {
+    os << "Vector: " << i << '\n';
+    const std::map< std::string, T* >& aMap = map._stringMap[ i ];
+    typename std::map< std::string, T* >::const_iterator iter = aMap.begin();
+    while ( iter != aMap.end() )
+    {
+      os << '\t' << (*iter).first << '\t' << (*iter).second
+	<< '\t' << *((*iter).second) << '\n';
+      ++iter;
+    }
+  }
+
+  os << "Vector: Int" << '\n';
+  //CHANGE  typename std::map< uint64_t, T* >::const_iterator iter = map._intMap.begin();
+  typename std::map< unsigned, T* >::const_iterator iter = map._intMap.begin();
+
+  while ( iter != map._intMap.end() )
+  {
+    os << '\t' << (*map._intStringMap.find( (*iter).first )).second
+      << '\t' << (*iter).second
+      << '\t' << *((*iter).second) << '\n';
+    ++iter;
+  }
+  return os;
+}
+
+//-------------
+// Selectors --
+//-------------
+template < class T >
+int
+AstStringMap< T >::stringToBucket( const std::string& key ) const
+{
+  if ( key.empty() ) return 0;
+  char firstLetter = key[0];
+
+  return firstLetter % ASTSTRINGMAP_NUM_VECTORS;
+}
+
+template < class T >
+/*CHANGE uint64_t*/
+unsigned
+AstStringMap< T >::stringToInt( const std::string& key ) const
+{
+  // if it is empty or bigger than we can handle return 0
+  int size = key.size();
+  if ( key.empty() || size > 8 ) return 0;
+
+  //CHANGE  uint64_t theNumber = 0;
+  unsigned theNumber = 0;
+
+  for ( int i = 0; i < size; i++ )
+  {
+    //CHANGE      uint64_t keyChar = static_cast< unsigned char >( key[i] );
+    unsigned keyChar = static_cast< unsigned char >( key[i] );
+    theNumber += keyChar << (i*8);
+  }
+
+  return theNumber;
+}
+
+template < class T >
+int
+AstStringMap< T >::size() const
+{
+  int theSize=0;
+  for ( int i = 0; i<ASTSTRINGMAP_NUM_VECTORS; i++ )
+  {
+    theSize += _stringMap[ i ].size();
+  }
+  theSize += _intMap.size();
+
+  return theSize;
+}
+
+//-------------
+// Modifiers --
+//-------------
+template < class T >
+  T*&
+AstStringMap< T >::insert( const std::string& key )
+{
+  //CHANGE  uint64_t theInt = stringToInt( key );
+  unsigned theInt = stringToInt( key );  
+  if ( theInt == 0 )
+    return _stringMap[ stringToBucket( key ) ][key];
+  else
+  {
+    _intStringMap[ theInt ] = key;
+    return _intMap[ theInt ];
+  }
+}
+
+
+template < class T >
+  void
+AstStringMap< T >::clear()
+{
+  for ( int i = 0; i<ASTSTRINGMAP_NUM_VECTORS; i++ )
+  {
+    _stringMap[ i ].clear();
+  }
+  _intMap.clear();
+  _intStringMap.clear();
+}
+
+//		-----------------------------------------------
+// 		-- Static Data & Function Member Definitions --
+//		-----------------------------------------------
+
+//		-------------------------------------------
+// 		-- Protected Function Member Definitions --
+//		-------------------------------------------
+
+//		-----------------------------------------
+// 		-- Private Function Member Definitions --
+//		-----------------------------------------
+
+//		-----------------------------------
+// 		-- Internal Function Definitions --
+//		-----------------------------------

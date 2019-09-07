@@ -1,0 +1,208 @@
+// -*- C++ -*-
+// $Id: ConstAList.icc,v 1.1.1.1 2005/04/21 01:15:12 zhangy Exp $
+//
+// This file is a part of what might become the CLHEP -
+// a Class Library for High Energy Physics.
+// 
+// This is the definitions of the inline member functions of the
+// HepConstAList class
+//
+
+template <class T>
+inline HepConstAList<T>::HepConstAList() {}
+
+template <class T>
+inline HepConstAList<T>::HepConstAList(const HepAList<T> & l) 
+: HepAListBase(l) {}
+
+template <class T>
+inline HepConstAList<T>::HepConstAList(const HepConstAList<T> & l) 
+: HepAListBase(l) {}
+
+template <class T>
+inline HepConstAList<T>::~HepConstAList() {}
+
+template <class T>
+inline void HepConstAList<T>::insert(const T * e) {
+  HepAListBase::insert((void *) e);
+}
+
+template <class T>
+inline void HepConstAList<T>::insert(const T & e) {
+  HepAListBase::insert((void *) &e);
+}
+
+template <class T>
+inline void HepConstAList<T>::insert(const T * e, const T * r) {
+  HepAListBase::insert((void *) e, (void *) r);
+}
+
+template <class T>
+inline void HepConstAList<T>::insert(const T & e, const T & r) {
+  HepAListBase::insert((void *) &e, (void *) &r);
+}
+
+template <class T>
+inline void HepConstAList<T>::insert(const T * e, unsigned pos) {
+  HepAListBase::insert((void *) e, pos);
+}
+
+template <class T>
+inline void HepConstAList<T>::insert(const T & e, unsigned pos) {
+  HepAListBase::insert((void *) &e, pos);
+}
+
+template <class T>
+inline void HepConstAList<T>::append(const T * e) {
+  HepAListBase::append((void *) e);
+}
+
+template <class T>
+inline void HepConstAList<T>::append(const T & e) {
+  HepAListBase::append((void *) &e);
+}
+
+template <class T>
+inline void HepConstAList<T>::operator += (const T * e) {
+  HepAListBase::append((void *) e);
+}
+
+template <class T>
+inline void HepConstAList<T>::operator += (const T & e) {
+  HepAListBase::append((void *) &e);
+}
+
+template <class T>
+inline void HepConstAList<T>::append(const T * e, const T * r) {
+  HepAListBase::append((void *) e, (void *) r);
+}
+
+template <class T>
+inline void HepConstAList<T>::append(const T & e, const T & r) {
+  HepAListBase::append((void *) &e, (void *) &r);
+}
+
+template <class T>
+inline void HepConstAList<T>::append(const HepAList<T> & l) {
+  HepAListBase::append(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::append(const HepConstAList<T> & l) {
+  HepAListBase::append(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::operator += (const HepAList<T> & l) {
+  HepAListBase::append(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::operator += (const HepConstAList<T> & l) {
+  HepAListBase::append(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::remove(const T * e) {
+  HepAListBase::remove((const void *) e);
+}
+
+template <class T>
+inline void HepConstAList<T>::remove(const T & e) {
+  HepAListBase::remove((const void *) &e);
+}
+
+template <class T>
+inline void HepConstAList<T>::remove(unsigned i) {
+  HepAListBase::remove(i);
+}
+
+template <class T>
+inline void HepConstAList<T>::remove(const HepAList<T> & l) {
+  HepAListBase::remove(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::remove(const HepConstAList<T> & l) {
+  HepAListBase::remove(l);
+}
+
+template <class T>
+inline HepBoolean HepConstAList<T>::member(const T * e) const {
+  return HepAListBase::hasMember((void *) e);
+}
+
+template <class T>
+inline HepBoolean HepConstAList<T>::member(const T & e) const {
+  return HepAListBase::hasMember((void *) &e);
+}
+
+template <class T>
+inline HepBoolean HepConstAList<T>::hasMember(const T * e) const {
+  return HepAListBase::hasMember((void *) e);
+}
+
+template <class T>
+inline HepBoolean HepConstAList<T>::hasMember(const T & e) const {
+  return HepAListBase::hasMember((void *) &e);
+}
+
+template <class T>
+inline void HepConstAList<T>::replace(const T * eo, const T * en) {
+  HepAListBase::replace((void *) eo, (void *) en);
+}
+
+template <class T>
+inline void HepConstAList<T>::replace(const T & eo, const T & en) {
+  HepAListBase::replace((void *) &eo, (void *) &en);
+}
+
+template <class T>
+inline const T * HepConstAList<T>::operator[] (unsigned i) const {
+  return (const T *) HepAListBase::operator[](i);
+}
+
+template <class T>
+inline int HepConstAList<T>::index(const T * e) const {
+  return HepAListBase::index((void *) e);
+}
+
+template <class T>
+inline int HepConstAList<T>::index(const T & e) const {
+  return HepAListBase::index((void *) &e);
+}
+
+template <class T>
+inline int HepConstAList<T>::fIndex(const T * e) const {
+  return HepAListBase::fIndex((void *) e);
+}
+
+template <class T>
+inline int HepConstAList<T>::fIndex(const T & e) const {
+  return HepAListBase::fIndex((void *) &e);
+}
+
+template <class T>
+inline const T * HepConstAList<T>::first() const {
+  return (const T *) HepAListBase::first();
+}
+
+template <class T>
+inline const T * HepConstAList<T>::last() const {
+  return (const T *) HepAListBase::last();
+}
+
+template <class T>
+inline void HepConstAList<T>::operator = (const HepAList<T> & l) {
+  HepAListBase::operator=(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::operator = (const HepConstAList<T> & l) {
+  HepAListBase::operator=(l);
+}
+
+template <class T>
+inline void HepConstAList<T>::sort(int (*func)(const T **, const T **) ) {
+   qsort( p, n, sizeof(void *), (compare_function *)func );
+}

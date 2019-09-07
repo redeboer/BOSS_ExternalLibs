@@ -1,0 +1,46 @@
+// -*- C++ -*-
+// $Id: ConstAIterator.icc,v 1.1.1.1 2005/04/21 01:15:12 zhangy Exp $
+//
+// This file is a part of what might become the CLHEP -
+// a Class Library for High Energy Physics.
+// 
+// This is the definitions of the inline member functions of the
+// HepConstAListIterator class
+//
+
+template <class T>
+inline HepConstAListIterator<T>::HepConstAListIterator(const HepAList<T> & li) 
+: HepAListIteratorBase(li) {}
+
+template <class T>
+inline HepConstAListIterator<T>::
+HepConstAListIterator(const HepConstAList<T> & li)
+: HepAListIteratorBase(li) {}
+
+template <class T>
+inline HepConstAListIterator<T>::
+HepConstAListIterator(const HepConstAListIterator<T> & li)
+: HepAListIteratorBase(li) {}
+
+template <class T>
+inline HepConstAListIterator<T>::~HepConstAListIterator() {}
+
+template <class T>
+inline const T * HepConstAListIterator<T>::operator () () {
+  return (const T *) HepAListIteratorBase::next();
+}
+
+template <class T>
+inline const T * HepConstAListIterator<T>::next() {
+  return (const T *) HepAListIteratorBase::next();
+}
+
+template <class T>
+inline const T * HepConstAListIterator<T>::prev() {
+  return (const T *) HepAListIteratorBase::prev();
+}
+
+template <class T>
+inline const T * HepConstAListIterator<T>::current() const {
+  return (const T *) HepAListIteratorBase::current();
+}

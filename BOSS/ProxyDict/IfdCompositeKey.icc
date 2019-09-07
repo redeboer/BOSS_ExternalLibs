@@ -1,0 +1,25 @@
+//--------------------------------------------------------------------------
+// File and Version Information:
+//    $Id: IfdCompositeKey.icc,v 1.1.1.1 2005/04/21 01:18:05 zhangy Exp $
+//
+// Description:
+//
+// Author List:
+//    Ed Frank                        University of Pennsylvania
+//
+// History:
+//    Ed Frank      17 Nov 96         Creation of first version
+//    Ec Frank      29 Nov 96         Add NO_INLINE_COPY_CTOR
+//    Ec Frank      13 Feb 96         Add NO_INLINE_COPY_CTOR removed
+//
+// CPP MACROS
+//    NO_INLINE_COPY_CTOR      Turns off inlining of copy ctor.  HP can not
+//                             support the for() in an inline right now.
+// Bugs:
+//    I'll bet most of this shouldnot be inline.
+//
+//------------------------------------------------------------------------
+
+
+
+

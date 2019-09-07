@@ -1,0 +1,8 @@
+#include "GaudiKernel/DeclareFactoryEntries.h"
+#include "KKMC/KKMC.h"
+
+DECLARE_ALGORITHM_FACTORY( KKMC )
+
+DECLARE_FACTORY_ENTRIES( KKMC ) {
+  DECLARE_ALGORITHM(KKMC);
+}
