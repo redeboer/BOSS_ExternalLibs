@@ -2,6 +2,10 @@
 *.cache
 *.swp
 
-# # Visual Studio Code
+# Visual Studio Code
 .vscode/
 *.code-workspace
+
+# Errors
+/BOSS/RawDataCnv/EventManagement/RAWEVENT.h
+/BOSS/RawDataCnv/EventManagement/RawEvent.h

@@ -37,21 +37,22 @@ function FetchBOSS()
 {
   local currentPath="$(pwd)"
   # * Determine version location
-  mkdir -p "${targetDir}/versionsBOSS"
-  AttemptCd "${targetDir}/versionsBOSS"
-  rm -rf *
-  for v in $(ls ${sourceDir}); do
-    echo > "${v}"
+  rm -rf "${targetDir}/versions"
+  mkdir -p "${targetDir}/versions"
+  AttemptCd "${sourceDir}"
+  for v in $(find -maxdepth 1 -type d  -regextype posix-extended -regex "\./[0-9].*"); do
+    echo > "${targetDir}/versions/${v}"
   done
   local defaultVersion="7.0.4"
-  read -e -p "Which version of BOSS do you want to load? " -i $defaultVersion versionBOSS
+  AttemptCd "${targetDir}/versions"
+  read -e -p "Which version of BOSS do you want to load? " -i $defaultVersion version
   AttemptCd "${targetDir}"
-  rm -rf versionsBOSS
+  rm -rf "versions"
   # * Copy headers
-  AttemptCd "${sourceDir}/${versionBOSS}/InstallArea/include"
+  AttemptCd "${sourceDir}/${version}/InstallArea/include"
   rm -rf "${targetDir}/BOSS"
   mkdir -p "${targetDir}/BOSS"
-  PrintBold "Copying headers and source files from BOSS version ${versionBOSS}..."
+  PrintBold "Copying headers and source files from BOSS version ${version}..."
   for package in $(ls); do
     cd $package
     for header in $(find -L -type f -regextype posix-extended -regex "^.*/[A-Za-z0-9]+\.(h|hh|icc)"); do
@@ -61,7 +62,7 @@ function FetchBOSS()
     cd - > /dev/null
   done
   # * Fetch icc files from source code
-  AttemptCd "${sourceDir}/${versionBOSS}"
+  AttemptCd "${sourceDir}/${version}"
   for package in $(find -L -type d -regextype posix-extended -regex "^.*/[^/]+-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$"); do
     # Remove subdirs such as "Event"
     local packageDir="$(dirname ${package/$(dirname $(dirname "${package}"))\/})"
@@ -85,30 +86,30 @@ function FetchCLHEP()
 {
   local currentPath="$(pwd)"
   # * Choose version
-  mkdir -p "${targetDir}/versionsCLHEP"
-  cd "${targetDir}/versionsCLHEP"
+  mkdir -p "${targetDir}/versions"
+  cd "${targetDir}/versions"
   rm -rf *
   local defaultVersion="2.0.4.5"
-  local versionsCLHEP=(
+  local versions=(
     "clhep/1.9.4.7/x86_64-slc6-gcc46-opt"
     "clhep/2.0.4.5/x86_64-slc6-gcc46-opt"
     "CLHEP/2.4.0.2/x86_64-slc6-gcc494-opt"
   )
-  for v in ${versionsCLHEP[@]}; do
+  for v in ${versions[@]}; do
     echo > "$(echo "${v}" | cut -d / -f 2)"
   done
-  read -e -p "Which version of CLHEP do you want to load? " -i $defaultVersion versionCLHEP
+  read -e -p "Which version of CLHEP do you want to load? " -i $defaultVersion version
   cd "${targetDir}"
-  rm -rf versionsCLHEP
+  rm -rf "versions"
   # * Determine version location
   local versionPath=""
-  for v in ${versionsCLHEP[@]}; do
-    if [[ "$(echo "${v}" | cut -d / -f 2)" == "${versionCLHEP}" ]]; then
+  for v in ${versions[@]}; do
+    if [[ "$(echo "${v}" | cut -d / -f 2)" == "${version}" ]]; then
       versionPath="${v}"
       break
     fi
   done
-  [[ "${versionPath}" == "" ]] && AbortScript "Version ${versionCLHEP} does not exist!"
+  [[ "${versionPath}" == "" ]] && AbortScript "Version ${version} does not exist!"
   # * Copy headers
   mkdir -p "${targetDir}/CLHEP/"
   cd "${targetDir}/CLHEP/"
@@ -128,26 +129,26 @@ function FetchGaudi()
   local currentPath="$(pwd)"
   # * Choose version
   cd "${extLibs}/gaudi"
-  local versionsGaudi=$(find -maxdepth 4 -type d -iwholename "*/InstallArea/x86_64-slc6-gcc46-opt/include")
-  mkdir -p "${targetDir}/versionsGaudi"
-  cd "${targetDir}/versionsGaudi"
+  local versions=$(find -maxdepth 4 -type d -iwholename "*/InstallArea/x86_64-slc6-gcc46-opt/include")
+  mkdir -p "${targetDir}/versions"
+  cd "${targetDir}/versions"
   rm -rf *
   local defaultVersion="GAUDI_v23r9"
-  for v in ${versionsGaudi[@]}; do
+  for v in ${versions[@]}; do
     echo > "$(echo "${v}" | cut -d / -f 2)"
   done
-  read -e -p "Which version of Gaudi do you want to load? " -i $defaultVersion versionGaudi
+  read -e -p "Which version of Gaudi do you want to load? " -i $defaultVersion version
   cd "${targetDir}"
-  rm -rf versionsGaudi
+  rm -rf versions
   # * Determine version location
   local versionPath=""
-  for v in ${versionsGaudi[@]}; do
-    if [[ "$(echo "${v}" | cut -d / -f 2)" == "${versionGaudi}" ]]; then
+  for v in ${versions[@]}; do
+    if [[ "$(echo "${v}" | cut -d / -f 2)" == "${version}" ]]; then
       versionPath="${v}"
       break
     fi
   done
-  [[ "${versionPath}" == "" ]] && AbortScript "Version ${versionGaudi} does not exist!"
+  [[ "${versionPath}" == "" ]] && AbortScript "Version ${version} does not exist!"
   # * Copy headers
   mkdir -p "${targetDir}/Gaudi/"
   cd "${targetDir}/Gaudi/"
