@@ -40,7 +40,7 @@ function FetchBOSS()
   rm -rf "${targetDir}/versions"
   mkdir -p "${targetDir}/versions"
   AttemptCd "${sourceDir}"
-  for v in $(find -maxdepth 1 -type d  -regextype posix-extended -regex "\./[0-9].*"); do
+  for v in $(find -maxdepth 1 -type d -regextype posix-extended -regex "\./[0-9].*"); do
     echo > "${targetDir}/versions/${v}"
   done
   local defaultVersion="7.0.4"
