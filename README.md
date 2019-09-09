@@ -10,6 +10,7 @@ The external libraries have been collected for **BOSS version 7.0.4.** and are (
 - [CLHEP v2.0.4.5](https://gitlab.cern.ch/CLHEP/CLHEP/tree/91a7f70af08cc371cd303be82951fae0a5364ea1)
 - [Gaudi v23r9](https://gitlab.cern.ch/gaudi/Gaudi/tree/dd3b5243ca46915da72d26e46554cd1e5e20710e)
 - [Geant4 v9.3](https://gitlab.cern.ch/geant4/geant4/tree/74cad5e589f2f0ce98503e2246afb07c62ffbff0)
+- [CMT v1r25](http://www.cmtsite.net/download.html) (see also [its Wiki](https://trac.lal.in2p3.fr/CMT/wiki))
 - Additional:
   - Reflex
   - Schema
