@@ -34,7 +34,8 @@ If you are editing code for BOSS package using Visual Studio Code, you can make 
         "${workspaceFolder}/ThirdParty/headers/BOSS",
         "${workspaceFolder}/ThirdParty/headers/CLHEP",
         "${workspaceFolder}/ThirdParty/headers/Gaudi",
-        "${workspaceFolder}/ThirdParty/headers/Geant4",
+        "${workspaceFolder}/ThirdParty/headers/geant4",
+        "${workspaceFolder}/ThirdParty/headers/geant4/**",
         "${workspaceFolder}/ThirdParty/headers/root"
       ],
       "cStandard": "c11",
@@ -45,7 +46,8 @@ If you are editing code for BOSS package using Visual Studio Code, you can make 
           "${workspaceFolder}/ThirdParty/headers/BOSS",
           "${workspaceFolder}/ThirdParty/headers/CLHEP",
           "${workspaceFolder}/ThirdParty/headers/Gaudi",
-          "${workspaceFolder}/ThirdParty/headers/Geant4",
+          "${workspaceFolder}/ThirdParty/headers/geant4",
+          "${workspaceFolder}/ThirdParty/headers/geant4/**",
           "${workspaceFolder}/ThirdParty/headers/root"
         ],
         "limitSymbolsToIncludedHeaders": true

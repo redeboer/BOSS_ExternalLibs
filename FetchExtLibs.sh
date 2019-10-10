@@ -1,3 +1,10 @@
+# * ===============================================================================
+# *   DESCRIPTION: Fetch headers of external libraries for BOSS
+# *        AUTHOR: Remco de Boer (@IHEP), EMAIL: remco.de.boer@ihep.ac.cn
+# *  ORGANIZATION: IHEP, CAS (Beijing, CHINA)
+# *       CREATED: 7 September 2019
+# * ===============================================================================
+
 source "${BOSS_StarterKit}/setup/FunctionsPrint.sh"
 
 
