@@ -62,6 +62,14 @@ Note that you may have to edit the paths from the workspace. In this example, th
 
 Formally, you should use `c99` and `c++03`, because of the version of `gcc` on the `lxslc` server. Using [this trick](https://github.com/redeboer/BOSS_Tutorials/tree/master/Cpp11Support/Cpp11Support-00-00-00), though, you can activate many C++11 features within the BOSS package framework, including the use of `auto`.
 
+Note that you may have to install the `boost` libraries. In Linux, this can be done through:
+
+```bash
+sudo apt-get install libboost-all-dev
+```
+
+By default, the headers are then installed under `/usr/include/boost`.
+
 ## Still to add
 
 Some components that allow one to build BOSS locally on one's system are still missing:
