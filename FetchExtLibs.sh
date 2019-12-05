@@ -202,6 +202,19 @@ function FetchROOT()
 FetchROOT
 
 
+# * =============== * #
+# * --== MySQL ==-- * #
+# * =============== * #
+function FetchMySQL()
+{
+  rm -rf "${targetDir}/mysql"
+  mkdir -p "${targetDir}/mysql"
+  PrintBold "Copying MySQL headers..."
+  cp -Rf "${extLibs}/external/mysql/5.5.14/x86_64-slc6-gcc46-opt/include/"* "${targetDir}/mysql/"
+}
+FetchMySQL
+
+
 # * ==================== * #
 # * --== Additional ==-- * #
 # * ==================== * #
@@ -215,6 +228,7 @@ function FetchAdditional()
     "BesGDML/2.8.0/x86_64-slc6-gcc46-opt/include/Common/Saxana/Saxana"
     "BesGDML/2.8.0/x86_64-slc6-gcc46-opt/include/Common/Schema/Schema"
     "ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/Reflex"
+    "mysql/5.5.14/x86_64-slc6-gcc46-opt/include"
   )
   for i in ${toCopy[@]}; do
     cp -Rf "${additionalPath}/$i" "${targetDir}/Additional"
