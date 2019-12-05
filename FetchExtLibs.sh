@@ -62,7 +62,7 @@ function FetchBOSS()
   PrintBold "Copying headers and source files from BOSS version ${version}..."
   for package in $(ls); do
     cd $package
-    for header in $(find -L -type f -regextype posix-extended -regex "^.*/[A-Za-z0-9]+\.(h|hh|icc)"); do
+    for header in $(find -L -type f -regextype posix-extended -regex "^.*/[A-Za-z0-9]+\.(h|hh|icc|cc)"); do
       mkdir -p "${targetDir}/BOSS/$(dirname ${header})"
       cp "${header}" "${targetDir}/BOSS/${header}"
     done
@@ -228,7 +228,6 @@ function FetchAdditional()
     "BesGDML/2.8.0/x86_64-slc6-gcc46-opt/include/Common/Saxana/Saxana"
     "BesGDML/2.8.0/x86_64-slc6-gcc46-opt/include/Common/Schema/Schema"
     "ROOT/5.34.09/x86_64-slc6-gcc46-opt/root/include/Reflex"
-    "mysql/5.5.14/x86_64-slc6-gcc46-opt/include"
   )
   for i in ${toCopy[@]}; do
     cp -Rf "${additionalPath}/$i" "${targetDir}/Additional"
