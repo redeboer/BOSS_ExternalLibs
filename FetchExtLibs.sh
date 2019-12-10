@@ -73,7 +73,7 @@ function FetchBOSS()
   for package in $(find -L -type d -regextype posix-extended -regex "^.*/[^/]+-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$"); do
     # Remove subdirs such as "Event"
     local packageDir="$(dirname ${package/$(dirname $(dirname "${package}"))\/})"
-    for file in $(find $package -type f -regextype posix-extended -regex "^.*/src/.*\.(C|cc|cpp|cxx|icc)$"); do
+    for file in $(find $package -type f -regextype posix-extended -regex "^.*/src/.*\.(C|cc|cpp|cxx|icc|hh)$"); do
       local targetFile="${targetDir}/BOSS/$packageDir/${file/${package}\/src\/}"
       mkdir -p "$(dirname "${targetFile}")"
       cp "${file}" "${targetFile}"
