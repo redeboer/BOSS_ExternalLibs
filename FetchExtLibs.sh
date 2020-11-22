@@ -7,7 +7,6 @@
 
 source "${BOSS_StarterKit}/setup/FunctionsPrint.sh"
 
-
 # * ============================ * #
 # * --== General parameters ==-- * #
 # * ============================ * #
@@ -16,39 +15,34 @@ extLibs="/afs/ihep.ac.cn/bes3/offline/ExternalLib/SLC6/ExternalLib"
 sourceDir="/afs/ihep.ac.cn/bes3/offline/Boss"
 targetDir="${BOSS_StarterKit}/ThirdParty/headers"
 
-function AbortScript()
-{
+function AbortScript() {
   local message="${1:-}"
   [[ "${message}" != "" ]] && PrintError "${message}"
   exit 1
 }
-function CheckDir()
-{
+function CheckDir() {
   local dirPath="${1}"
   [[ ! -d "${dirPath}" ]] && AbortScript "Target directory \"${dirPath}\" does not exist"
 }
-function AttemptCd()
-{
-  { cd ${1}; } &> /dev/null || AbortScript "Directory \"${1}\" does not exist"
+function AttemptCd() {
+  { cd ${1}; } &>/dev/null || AbortScript "Directory \"${1}\" does not exist"
 }
 
 mkdir -p "${targetDir}"
 CheckDir "${extLibs}"
 CheckDir "${targetDir}"
 
-
 # * ============== * #
 # * --== BOSS ==-- * #
 # * ============== * #
-function FetchBOSS()
-{
+function FetchBOSS() {
   local currentPath="$(pwd)"
   # * Determine version location
   rm -rf "${targetDir}/versions"
   mkdir -p "${targetDir}/versions"
   AttemptCd "${sourceDir}"
   for v in $(find -maxdepth 1 -type d -regextype posix-extended -regex "\./[0-9].*"); do
-    echo > "${targetDir}/versions/${v}"
+    echo >"${targetDir}/versions/${v}"
   done
   local defaultVersion="7.0.4"
   AttemptCd "${targetDir}/versions"
@@ -66,15 +60,15 @@ function FetchBOSS()
       mkdir -p "${targetDir}/BOSS/$(dirname ${header})"
       cp "${header}" "${targetDir}/BOSS/${header}"
     done
-    cd - > /dev/null
+    cd - >/dev/null
   done
   # * Fetch icc files from source code
   AttemptCd "${sourceDir}/${version}"
   for package in $(find -L -type d -regextype posix-extended -regex "^.*/[^/]+-[0-9][0-9]-[0-9][0-9]-[0-9][0-9]$"); do
     # Remove subdirs such as "Event"
-    local packageDir="$(dirname ${package/$(dirname $(dirname "${package}"))\/})"
+    local packageDir="$(dirname ${package/$(dirname $(dirname "${package}"))\//})"
     for file in $(find $package -type f -regextype posix-extended -regex "^.*/src/.*\.(C|cc|cpp|cxx|icc|hh)$"); do
-      local targetFile="${targetDir}/BOSS/$packageDir/${file/${package}\/src\/}"
+      local targetFile="${targetDir}/BOSS/$packageDir/${file/${package}\/src\//}"
       mkdir -p "$(dirname "${targetFile}")"
       cp "${file}" "${targetFile}"
     done
@@ -89,8 +83,7 @@ FetchBOSS
 # * =============== * #
 # * --== CLHEP ==-- * #
 # * =============== * #
-function FetchCLHEP()
-{
+function FetchCLHEP() {
   local currentPath="$(pwd)"
   # * Choose version
   mkdir -p "${targetDir}/versions"
@@ -103,7 +96,7 @@ function FetchCLHEP()
     "CLHEP/2.4.0.2/x86_64-slc6-gcc494-opt"
   )
   for v in ${versions[@]}; do
-    echo > "$(echo "${v}" | cut -d / -f 2)"
+    echo >"$(echo "${v}" | cut -d / -f 2)"
   done
   read -e -p "Which version of CLHEP do you want to load? " -i $defaultVersion version
   cd "${targetDir}"
@@ -127,12 +120,10 @@ function FetchCLHEP()
 }
 FetchCLHEP
 
-
 # * =============== * #
 # * --== Gaudi ==-- * #
 # * =============== * #
-function FetchGaudi()
-{
+function FetchGaudi() {
   local currentPath="$(pwd)"
   # * Choose version
   cd "${extLibs}/gaudi"
@@ -142,7 +133,7 @@ function FetchGaudi()
   rm -rf *
   local defaultVersion="GAUDI_v23r9"
   for v in ${versions[@]}; do
-    echo > "$(echo "${v}" | cut -d / -f 2)"
+    echo >"$(echo "${v}" | cut -d / -f 2)"
   done
   read -e -p "Which version of Gaudi do you want to load? " -i $defaultVersion version
   cd "${targetDir}"
@@ -166,12 +157,10 @@ function FetchGaudi()
 }
 FetchGaudi
 
-
 # * ================ * #
 # * --== Geant4 ==-- * #
 # * ================ * #
-function FetchGeant4()
-{
+function FetchGeant4() {
   local additionalPath="${extLibs}/external/BesGDML/2.8.0/x86_64-slc6-gcc46-opt/include"
   # * Copy separate header subfolders
   rm -rf "${targetDir}/geant4"
@@ -188,12 +177,10 @@ function FetchGeant4()
 }
 FetchGeant4
 
-
 # * ============== * #
 # * --== ROOT ==-- * #
 # * ============== * #
-function FetchROOT()
-{
+function FetchROOT() {
   rm -rf "${targetDir}/root"
   mkdir -p "${targetDir}/root"
   PrintBold "Copying ROOT headers..."
@@ -201,12 +188,10 @@ function FetchROOT()
 }
 FetchROOT
 
-
 # * =============== * #
 # * --== MySQL ==-- * #
 # * =============== * #
-function FetchMySQL()
-{
+function FetchMySQL() {
   rm -rf "${targetDir}/mysql"
   mkdir -p "${targetDir}/mysql"
   PrintBold "Copying MySQL headers..."
@@ -214,12 +199,10 @@ function FetchMySQL()
 }
 FetchMySQL
 
-
 # * ==================== * #
 # * --== Additional ==-- * #
 # * ==================== * #
-function FetchAdditional()
-{
+function FetchAdditional() {
   local additionalPath="${extLibs}/external"
   rm -rf "${targetDir}/Additional"
   mkdir -p "${targetDir}/Additional"
