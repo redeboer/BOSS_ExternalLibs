@@ -1,10 +1,80 @@
-# Temporary files
-*.cache
-*.swp
+# Output files
+*.dst
+*.pdf
+*.raw
+*.root
+*.rtraw
 
-# Visual Studio Code
-.vscode/
-*.code-workspace
+# Build files
+*.a
+*.app
+*.d
+*.dll
+*.dylib
+*.exe
+*.la
+*.lai
+*.lib
+*.lo
+*.o
+*.obj
+*.out
+*.slo
+*.so
+
+# CMT files
+**.cmtref
+**.fferr
+**.ffwarn
+**.history
+**.in
+**.make
+**.makecmtsave
+**.makesav
+**.shstamp
+**.stamp
+**/cmt/cleanup.*
+**/cmt/setup.*
+*/*/*/*/*/cmt/cleanup.*
+*/*/*/*/*/cmt/setup.*
+*/*/*/*/cmt/cleanup.*
+*/*/*/*/cmt/setup.*
+*/*/*/cmt/cleanup.*
+*/*/*/cmt/setup.*
+*/*/cmt/cleanup.*
+*/*/cmt/setup.*
+.sematic.cache
+core.*
+fort.*
+
+# CVS files
+CVS
+Entries
+Repository
+Root
+Tag
+
+# Fortran module files
+*.mod
+*.smod
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Temporary files
+*.bosserr
+*.bosslog
+*.tmp
+
+# Virtual environments
+*venv/
+.tox/
+pyvenv*/
+
+# Settings
+.idea/
+**.code-workspace
 
 # Errors
 /BOSS/RawDataCnv/EventManagement/RAWEVENT.h
